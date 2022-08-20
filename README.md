@@ -2,6 +2,15 @@
 
 It is a simple project to get the stats of a museum in a particular date
 
+## Tech Stacks
+`NodeJS`
+
+`Express`
+
+`Mocha`
+
+`Chai`
+
 ## Installation
 Use the npm package manager.
 ```
@@ -16,8 +25,9 @@ Runs the app in the development mode.
 Open http://localhost:3000 to view it in your browser.
 
 `npm test`
+
 For testing the application
- 
+
 
 
 
