@@ -4,11 +4,8 @@ It is a simple project to get the stats of a museum in a particular date
 
 ## Tech Stacks
 `NodeJS`
-
 `Express`
-
 `Mocha`
-
 `Chai`
 
 ## Installation
