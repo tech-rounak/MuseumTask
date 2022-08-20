@@ -1,35 +1,36 @@
-// const { get } = require("../Controllers/museumController");
+
 
 const  changeDate = (seconds) => {
     const timestamp = seconds;
+    // converting the given date in milliseconds to reqruired timestamp format '2014-07-01T01:30:00.000Z'
     let date = new Date('January 1, 1970 00:00:00').setMilliseconds(timestamp);
 
     let searchDate = new Date(date).toISOString();
-
+    // console.log(searchDate);
+    // edditing the timestamp to search format '2014-07-01T00:00:00.000'
     let x = searchDate.length;
     searchDate = searchDate.substring(0,x-16);
     x = x-1;
     searchDate = searchDate + '01T00:00:00.000';
+    // console.log(searchDate);
+   
 
-    
     return searchDate; 
 }
 
 const getFinalData = (getMonthYear,data) => {
-    // console.log(data);
-
     var getMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     let month = getMonth[parseInt(getMonthYear.substring(5,7))-1];
     let year = getMonthYear.substring(0,4);
-    // console.log(getMonthYear)
-    const object = data;
-    // console.log(object);
-
-    let low = {},high = {};
+    
+    let low = {}/* for storing the museum with lowest visitors */
+    let high = {}/* for storing the museum with highest visitors */
     let mi = 1e18 , ma = 0 , totalVisitors = 0;
     
-    for (const property in object) {
-        totalVisitors = totalVisitors + parseInt(object[property]);
+    const object=data;
+    for (const property in data) {
+        totalVisitors = totalVisitors + parseInt(object[property]);  /* Adding the visitor to total vistors */
+
         if(parseInt(object[property]) > ma){
             ma = parseInt(object[property]);
             high={
@@ -45,6 +46,8 @@ const getFinalData = (getMonthYear,data) => {
             }
         }
       }
+   
+    //   creating the final data object for returning
       let finalData = {
         "year":year,
         "month":month,
@@ -52,9 +55,8 @@ const getFinalData = (getMonthYear,data) => {
         "lowest":low,
         "total":totalVisitors
       }
-
       return finalData;
 }
 
 module.exports.changeDate = changeDate;
-module.exports.getFinalData = getFinalData;
+module.exports.getFinalData = getFinalData
