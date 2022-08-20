@@ -16,14 +16,14 @@ const  changeDate = (seconds) => {
 }
 
 const getFinalData = (getMonthYear,data) => {
-    console.log(data);
+    // console.log(data);
 
     var getMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     let month = getMonth[parseInt(getMonthYear.substring(5,7))-1];
     let year = getMonthYear.substring(0,4);
-    console.log(getMonthYear)
+    // console.log(getMonthYear)
     const object = data;
-    console.log(object);
+    // console.log(object);
 
     let low = {},high = {};
     let mi = 1e18 , ma = 0 , totalVisitors = 0;
