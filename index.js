@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const axios = require('axios').default;
-const services=require('./services/app.service')
+const services = require('./services/app.service')
 
 app.set("view engine","ejs");
 
@@ -15,18 +15,16 @@ app.get("/",(req,res)=>{
 })
 // url for return data for the date in milliseconds
 app.get('/visitors',(req,res)=>{
-    const timestamp = req.query.month;
+    let timestamp = req.query.month;
+    let museumIgnore = req.query.museum;
     let getMonthYear = services.changeDate(timestamp); /* Converting the millisecond to searchable format string */
     const url = "https://data.lacity.org/resource/trxm-jn3c.json?month="+getMonthYear;
     let data = {};
-    // used axios for calling the api
     axios.get(url).then((response)=>{
         data = response.data;
-        if(data.length>0){
-            // console.log(data)
-            // console.log(getMonthYear)
-              let result = services.getFinalData(getMonthYear,data[0]);
-              console.log(result);
+        if(data.length > 0){
+              let result = services.getFinalData(getMonthYear,data[0],museumIgnore);
+            //   console.log(result);
               res.send(result)
         }
         else{

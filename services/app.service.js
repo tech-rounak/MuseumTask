@@ -18,7 +18,7 @@ const  changeDate = (seconds) => {
     return searchDate; 
 }
 
-const getFinalData = (getMonthYear,data) => {
+const getFinalData = (getMonthYear,data,museumIgnore) => {
     var getMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     let month = getMonth[parseInt(getMonthYear.substring(5,7))-1];
     let year = getMonthYear.substring(0,4);
@@ -27,33 +27,47 @@ const getFinalData = (getMonthYear,data) => {
     let high = {}/* for storing the museum with highest visitors */
     let mi = 1e18 , ma = 0 , totalVisitors = 0;
     
-    const object=data;
+    const object = data;
     for (const property in data) {
-        totalVisitors = totalVisitors + parseInt(object[property]);  /* Adding the visitor to total vistors */
-
-        if(parseInt(object[property]) > ma){
-            ma = parseInt(object[property]);
-            high={
-                "museum":property,
-                "visitors":object[property]
+        if(property !== 'month' && property !== museumIgnore){
+            totalVisitors = totalVisitors + parseInt(object[property]);  /* Adding the visitor to total vistors */
+        
+            if(parseInt(object[property]) > ma){
+                ma = parseInt(object[property]);
+                high = {
+                    "museum":property,
+                    "visitors":object[property]
+                }
             }
-        }
-        if(parseInt(object[property]) < mi){
-            mi = parseInt(object[property]);
-            low={
-                "museum":property,
-                "visitors":object[property]
+            if(parseInt(object[property]) < mi){
+                mi = parseInt(object[property]);
+                low = {
+                    "museum":property,
+                    "visitors":object[property]
+                }
             }
         }
       }
-   
+
     //   creating the final data object for returning
       let finalData = {
-        "year":year,
-        "month":month,
-        "highest":high,
-        "lowest":low,
-        "total":totalVisitors
+        "attendance":{
+            "year":year,
+            "month":month,
+            "highest":high,
+            "lowest":low,
+             "total":totalVisitors
+        }
+      }
+      if(museumIgnore !== undefined && museumIgnore.length !== 0 && object[museumIgnore] !== undefined){
+
+        //   creating the ignored object
+        let ignore = {
+            "museum": museumIgnore,
+            "visitors": object[museumIgnore]
+        }
+        // adding ignored property to the finalData object
+        finalData["Ignored"] = ignore;
       }
       return finalData;
 }
